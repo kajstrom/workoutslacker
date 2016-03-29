@@ -1,0 +1,5 @@
+.vagrant
+.idea
+tests/_output/*
+vendor
+logs/*
