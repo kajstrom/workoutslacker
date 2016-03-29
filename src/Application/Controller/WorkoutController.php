@@ -2,6 +2,8 @@
 
 namespace Application\Controller;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Created by PhpStorm.
@@ -21,13 +23,16 @@ class WorkoutController
         $this->entityManager = $entityManager;
     }
     
-    public function indexAction()
+    public function indexAction(Request $request) : Response
     {
         $workoutRepository = $this->entityManager->getRepository('Model\\Workout');
         $workouts = $workoutRepository->findAll();
 
+        $response = "";
         foreach ($workouts as $workout) {
-            echo $workout->getDate()->format("d.m.Y");
+            $response .= $workout->getDate()->format("d.m.Y");
         }
+
+        return new Response($response);
     }
 }

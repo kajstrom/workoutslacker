@@ -1,5 +1,6 @@
 <?php
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
@@ -24,5 +25,7 @@ $parameters = $matcher->match($request->getRequestUri());
 $controllerName = '\Application\Controller\\' . $parameters["controller"];
 
 $controller = new $controllerName($entityManager);
+/** @var Response $response */
+$response = call_user_func_array([$controller, $parameters["action"] . "Action"], [$request]);
 
-call_user_func_array([$controller, $parameters["action"] . "Action"], [$request]);
+$response->send();
