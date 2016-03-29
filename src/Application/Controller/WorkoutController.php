@@ -17,10 +17,15 @@ class WorkoutController
      * @var EntityManager
      */
     protected $entityManager;
+    /**
+     * @var \Twig_Environment
+     */
+    private $twig;
 
-    public function __construct(EntityManager $entityManager)
+    public function __construct(\Twig_Environment $twig, EntityManager $entityManager)
     {
         $this->entityManager = $entityManager;
+        $this->twig = $twig;
     }
     
     public function indexAction(Request $request) : Response
@@ -28,11 +33,13 @@ class WorkoutController
         $workoutRepository = $this->entityManager->getRepository('Model\\Workout');
         $workouts = $workoutRepository->findAll();
 
-        $response = "";
+        $templateWorkouts = [];
         foreach ($workouts as $workout) {
-            $response .= $workout->getDate()->format("d.m.Y");
+            $templateWorkouts[] = [
+                "date" => $workout->getDate()->format("d.m.Y")
+            ];
         }
 
-        return new Response($response);
+        return new Response($this->twig->render("workout.index.html", ["workouts" => $templateWorkouts]));
     }
 }

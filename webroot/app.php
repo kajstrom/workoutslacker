@@ -24,7 +24,12 @@ $parameters = $matcher->match($request->getRequestUri());
 
 $controllerName = '\Application\Controller\\' . $parameters["controller"];
 
-$controller = new $controllerName($entityManager);
+$loader = new Twig_Loader_Filesystem(dirname(__DIR__) . '/views');
+$twig = new Twig_Environment($loader, array(
+    'cache' => dirname(__DIR__) . '/cache/twig',
+));
+
+$controller = new $controllerName($twig, $entityManager);
 /** @var Response $response */
 $response = call_user_func_array([$controller, $parameters["action"] . "Action"], [$request]);
 
