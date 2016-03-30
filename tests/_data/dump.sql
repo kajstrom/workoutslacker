@@ -16,6 +16,14 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
+-- Current Database: `workout`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `workout` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `workout`;
+
+--
 -- Table structure for table `workouts`
 --
 
@@ -48,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-03-30 12:59:54
+-- Dump completed on 2016-03-30 13:14:06
