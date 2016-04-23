@@ -2,7 +2,7 @@
 
 namespace Application\Controller;
 use Doctrine\ORM\EntityManager;
-use Symfony\Component\HttpFoundation\Request;
+use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -28,7 +28,7 @@ class WorkoutController
         $this->twig = $twig;
     }
     
-    public function indexAction(Request $request) : Response
+    public function indexAction(ServerRequestInterface $serverRequestInterface) : Response
     {
         $workoutRepository = $this->entityManager->getRepository('Model\\Workout');
         $workouts = $workoutRepository->findAll();

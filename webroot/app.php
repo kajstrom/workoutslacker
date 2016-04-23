@@ -1,16 +1,16 @@
 <?php
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
 use Symfony\Component\Routing\Route;
 use Symfony\Component\Routing\RouteCollection;
+use Zend\Diactoros\ServerRequestFactory;
 
 require "../bootstrap.php";
 ini_set("display_errors", "on");
 error_reporting(E_ALL);
 
-$request = Request::createFromGlobals();
+$request = ServerRequestFactory::fromGlobals();
 
 $route = new Route('/workouts', array('controller' => 'WorkoutController', 'action' => 'index'));
 $routes = new RouteCollection();
@@ -20,7 +20,7 @@ $context = new RequestContext('/');
 
 $matcher = new UrlMatcher($routes, $context);
 
-$parameters = $matcher->match($request->getRequestUri());
+$parameters = $matcher->match($request->getRequestTarget());
 
 $controllerName = '\Application\Controller\\' . $parameters["controller"];
 
