@@ -1,4 +1,4 @@
-Model\Workout:
+Domain\WorkoutLog\Workout:
   type: entity
   table: workouts
   id:

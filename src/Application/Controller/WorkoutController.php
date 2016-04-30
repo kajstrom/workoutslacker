@@ -2,6 +2,7 @@
 
 namespace Application\Controller;
 use Doctrine\ORM\EntityManager;
+use Domain\WorkoutLog\Workout;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,7 +31,7 @@ class WorkoutController
     
     public function indexAction(ServerRequestInterface $serverRequestInterface) : Response
     {
-        $workoutRepository = $this->entityManager->getRepository('Model\\Workout');
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
         $workouts = $workoutRepository->findAll();
 
         $templateWorkouts = [];
