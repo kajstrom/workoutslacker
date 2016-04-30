@@ -8,19 +8,13 @@ use Doctrine\ORM\EntityManager;
 
 $isDevMode = true;
 
-$user = "root";
-$password = "root";
-
-if ($_ENV["CODESHIP"] === "TRUE") {
-    $user = $_ENV["MYSQL_USER"];
-    $password = $_ENV["MYSQL_PASSWORD"];
-}
+require "config/db-config.php";
 
 // the connection configuration
 $dbParams = array(
     'driver'   => 'pdo_mysql',
-    'user'     => $user,
-    'password' => $password,
+    'user'     => DB_USER,
+    'password' => DB_PASSWD,
     'dbname'   => 'workout',
 );
 
