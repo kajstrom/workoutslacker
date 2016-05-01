@@ -15,7 +15,7 @@ $dbParams = array(
     'driver'   => 'pdo_mysql',
     'user'     => DB_USER,
     'password' => DB_PASSWD,
-    'dbname'   => 'workout',
+    'dbname'   => DB_NAME,
 );
 
 $paths = array(__DIR__ . "/config/doctrine");

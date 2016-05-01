@@ -87,10 +87,11 @@ Vagrant.configure(2) do |config|
 	 sudo /bin/dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
 	 sudo /sbin/mkswap /var/swap.1
 	 sudo /sbin/swapon /var/swap.1
-	 echo mysql-server mysql-server/root_password password strangehat | sudo debconf-set-selections
-	 echo mysql-server mysql-server/root_password_again password strangehat | sudo debconf-set-selections
+	 echo mysql-server mysql-server/root_password password root | sudo debconf-set-selections
+	 echo mysql-server mysql-server/root_password_again password root | sudo debconf-set-selections
 	 sudo apt-get install mysql-server -y 
 	 sudo apt-get install mysql-client -y
 	 mysql --user=root --password=root -e 'CREATE DATABASE workout;'
+	 mysql --user=root --password=root -e 'CREATE DATABASE workout_test;'
 	SHELL
 end

@@ -5,8 +5,26 @@
 # If you need both WebDriver and PHPBrowser tests - create a separate suite.
 
 class_name: AcceptanceTester
-modules:
-    enabled:
-        - PhpBrowser:
-            url: http://127.0.0.1:8888/
-        - \Helper\Acceptance
+env:
+  dev:
+    modules:
+        enabled:
+            - PhpBrowser:
+                url: http://127.0.0.1:8888/
+            - \Helper\Acceptance
+            - Db:
+                 dsn: 'mysql:host=127.0.0.1;dbname=workout_test'
+                 user: 'root'
+                 password: 'root'
+                 dump: tests/_data/dump.sql
+  codeship:
+    modules:
+      enabled:
+          - PhpBrowser:
+              url: http://127.0.0.1:8888/
+          - \Helper\Acceptance
+          - Db:
+             dsn: 'mysql:host=127.0.0.1;dbname=workout_test'
+             user: .env.MYSQL_USER
+             password: .env.MYSQL_PASSWORD
+             dump: tests/_data/dump.sql
