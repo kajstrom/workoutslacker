@@ -8,5 +8,5 @@ vagrant up
 Tests using Codeception
 
 ```
-vendor/bin/codecept run
+vendor/bin/codecept run --env dev
 ```
