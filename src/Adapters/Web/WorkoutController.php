@@ -1,6 +1,6 @@
 <?php
 
-namespace Presentation\Controller;
+namespace Adapters\Web;
 use Doctrine\ORM\EntityManager;
 use Domain\WorkoutLog\Workout;
 use Psr\Http\Message\ServerRequestInterface;

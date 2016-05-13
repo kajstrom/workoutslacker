@@ -22,7 +22,7 @@ $matcher = new UrlMatcher($routes, $context);
 
 $parameters = $matcher->match($request->getRequestTarget());
 
-$controllerName = '\Presentation\Controller\\' . $parameters["controller"];
+$controllerName = '\Adapters\Web\\' . $parameters["controller"];
 
 $loader = new Twig_Loader_Filesystem(dirname(__DIR__) . '/views');
 $twig = new Twig_Environment($loader, array(
