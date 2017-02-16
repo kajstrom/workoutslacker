@@ -2,7 +2,7 @@
 
 namespace Adapters\Web;
 use Doctrine\ORM\EntityManager;
-use Domain\WorkoutLog\Workout;
+use Domain\Logging\Model\Workout;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
 

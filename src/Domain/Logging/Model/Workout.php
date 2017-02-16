@@ -1,14 +1,22 @@
 <?php
-namespace Domain\WorkoutLog;
+declare(strict_types=1);
+
+namespace Domain\Logging\Model;
 
 class Workout
 {
-    protected $id;
+    private $id;
     /**
      * @var \DateTime
      */
-    protected $date;
+    private $date;
 
+
+    public function __construct(\DateTimeImmutable $date)
+    {
+        $this->date = $date;
+    }
+    
     /**
      * @param \DateTimeImmutable $date
      */
