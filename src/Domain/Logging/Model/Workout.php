@@ -3,18 +3,22 @@ declare(strict_types=1);
 
 namespace Domain\Logging\Model;
 
-class Workout
+use Domain\Entity;
+
+class Workout extends Entity
 {
-    private $id;
+    /** @var  WorkoutId */
+    private $workoutId;
     /**
      * @var \DateTime
      */
     private $date;
 
 
-    public function __construct(\DateTimeImmutable $date)
+    public function __construct(WorkoutId $workoutId, \DateTimeImmutable $date)
     {
         $this->date = $date;
+        $this->workoutId = $workoutId;
     }
     
     /**
@@ -31,5 +35,10 @@ class Workout
     public function getDate()
     {
         return $this->date;
+    }
+
+    public function getId() : WorkoutId
+    {
+        return $this->workoutId;
     }
 }

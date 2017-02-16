@@ -2,6 +2,7 @@
 
 namespace Adapters\Web;
 use Doctrine\ORM\EntityManager;
+use Domain\Logging\Infrastructure\Persistence\Doctrine\WorkoutRepository;
 use Domain\Logging\Model\Workout;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -31,13 +32,17 @@ class WorkoutController
     
     public function indexAction(ServerRequestInterface $serverRequestInterface) : Response
     {
+        /** @var WorkoutRepository $workoutRepository */
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
+
+        /** @var Workout[] $workouts */
         $workouts = $workoutRepository->findAll();
 
         $templateWorkouts = [];
         foreach ($workouts as $workout) {
             $templateWorkouts[] = [
-                "date" => $workout->getDate()->format("d.m.Y")
+                "date" => $workout->getDate()->format("d.m.Y"),
+                "id" => $workout->getId()->__toString()
             ];
         }
 
