@@ -42,9 +42,13 @@ class WorkoutController
 
         $templateWorkouts = [];
         foreach ($workouts as $workout) {
+            $time = $workout->getTime();
+
             $templateWorkouts[] = [
                 "date" => $workout->getTime()->getStart()->format("d.m.Y"),
-                "id" => $workout->getId()->__toString()
+                "id" => $workout->getId()->__toString(),
+                "start" => $time->getStart()->format("H:i"),
+                "end" => $time->getEnd()->format("H:i")
             ];
         }
 

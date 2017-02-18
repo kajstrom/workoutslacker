@@ -5,8 +5,27 @@
     <title>Workouts</title>
 </head>
 <body>
-{% for workout in workouts %}
-{{workout.date}}{{workout.id}}<br>
-{% endfor %}
+
+<a href="/workouts/add">Add workout.</a>
+
+<table>
+    <thead>
+    <tr>
+        <th>Date</th>
+        <th>Start</th>
+        <th>End</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for workout in workouts %}
+    <tr>
+        <td>{{workout.date}}</td>
+        <td>{{workout.start}}</td>
+        <td>{{workout.end}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
 </body>
 </html>
