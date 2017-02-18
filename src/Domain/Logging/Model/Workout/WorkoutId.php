@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Domain\Logging\Model;
+namespace Domain\Logging\Model\Workout;
 
 
 class WorkoutId

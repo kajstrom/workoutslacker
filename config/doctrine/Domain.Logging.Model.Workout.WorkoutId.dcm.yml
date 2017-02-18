@@ -1,4 +1,4 @@
-Domain\Logging\Model\WorkoutId:
+Domain\Logging\Model\Workout\WorkoutId:
   type: embeddable
   fields:
     workoutId: {type: string}

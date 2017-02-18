@@ -1,7 +1,8 @@
 <?php
 use Codeception\Util\Fixtures;
 use Domain\Logging\Infrastructure\Persistence\Doctrine\WorkoutRepository;
-use Domain\Logging\Model\Workout;
+use Domain\Logging\Model\Workout\Time;
+use Domain\Logging\Model\Workout\Workout;
 
 $I = new AcceptanceTester($scenario);
 $I->wantTo('start the test cycle');
@@ -12,7 +13,9 @@ $entityManager = Fixtures::get("entityManager");
 $workoutRepository = $entityManager->getRepository(Workout::class);
 
 $workoutId = $workoutRepository->nextId();
-$workout = new Workout($workoutId, new \DateTimeImmutable("2016-03-28"));
+
+$time = new Time(new \DateTime("2016-03-28 12:00:00", new DateTimeZone("utc")), new \DateTime("2016-03-28 13:00:00"), new DateTimeZone("utc"));
+$workout = new Workout($workoutId, $time);
 
 $entityManager->persist($workout);
 $entityManager->flush();

@@ -12,9 +12,11 @@ error_reporting(E_ALL);
 
 $request = ServerRequestFactory::fromGlobals();
 
-$route = new Route('/workouts', array('controller' => 'WorkoutController', 'action' => 'index'));
+$workoutsListRoute = new Route('/workouts', array('controller' => 'WorkoutController', 'action' => 'index'));
+$addWorkoutRoute = new Route("/workouts/add", ["controller" => "WorkoutController", "action" => "add"]);
 $routes = new RouteCollection();
-$routes->add('workout_index', $route);
+$routes->add('workout_index', $workoutsListRoute);
+$routes->add("workout_add", $addWorkoutRoute);
 
 $context = new RequestContext('/');
 

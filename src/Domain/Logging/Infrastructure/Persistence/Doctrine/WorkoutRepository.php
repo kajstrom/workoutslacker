@@ -10,7 +10,7 @@ namespace Domain\Logging\Infrastructure\Persistence\Doctrine;
 
 
 use Doctrine\ORM\EntityRepository;
-use Domain\Logging\Model\WorkoutId;
+use Domain\Logging\Model\Workout\WorkoutId;
 use Ramsey\Uuid\Uuid;
 
 class WorkoutRepository extends EntityRepository

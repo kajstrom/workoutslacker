@@ -3,8 +3,10 @@
 namespace Adapters\Web;
 use Doctrine\ORM\EntityManager;
 use Domain\Logging\Infrastructure\Persistence\Doctrine\WorkoutRepository;
-use Domain\Logging\Model\Workout;
+use Domain\Logging\Model\Workout\Time;
+use Domain\Logging\Model\Workout\Workout;
 use Psr\Http\Message\ServerRequestInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -41,11 +43,41 @@ class WorkoutController
         $templateWorkouts = [];
         foreach ($workouts as $workout) {
             $templateWorkouts[] = [
-                "date" => $workout->getDate()->format("d.m.Y"),
+                "date" => $workout->getTime()->getStart()->format("d.m.Y"),
                 "id" => $workout->getId()->__toString()
             ];
         }
 
         return new Response($this->twig->render("workout.index.html", ["workouts" => $templateWorkouts]));
+    }
+
+    public function addAction(ServerRequestInterface $serverRequestInterface) : Response
+    {
+        if ($serverRequestInterface->getMethod() === "POST") {
+            $post = $serverRequestInterface->getParsedBody();
+
+            $start = \DateTime::createFromFormat("d.m.Y H:i", $post["date"]. " " . $post["start"]);
+            $end = \DateTime::createFromFormat("d.m.Y H:i", $post["date"]. " " . $post["end"]);
+
+            if ($end < $start) {
+                $end->add(new \DateInterval("P1D"));
+            }
+
+            $time = new Time($start, $end);
+
+            /** @var WorkoutRepository $workoutRepository */
+            $workoutRepository = $this->entityManager->getRepository(Workout::class);
+
+            $workoutId = $workoutRepository->nextId();
+
+            $workout = new Workout($workoutId, $time);
+
+            $this->entityManager->persist($workout);
+            $this->entityManager->flush();
+
+            return new RedirectResponse("/workouts");
+        }
+
+        return new Response($this->twig->render("workout.add.html"));
     }
 }

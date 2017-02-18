@@ -1,0 +1,5 @@
+Domain\Logging\Model\Workout\Time:
+  type: embeddable
+  fields:
+    start: {type: datetime}
+    end: {type: datetime}
