@@ -5,7 +5,7 @@ Start development environment
 vagrant up
 ```
 
-Tests using Codeception
+Tests using Codeception (on the Vagrant development environment)
 
 ```
 vendor/bin/codecept run --env dev
