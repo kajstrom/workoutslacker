@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Created by PhpStorm.
  * User: Kaitsu
@@ -10,6 +11,7 @@ namespace Domain\Logging\Infrastructure\Persistence\Doctrine;
 
 
 use Doctrine\ORM\EntityRepository;
+use Domain\Logging\Model\Workout\Workout;
 use Domain\Logging\Model\Workout\WorkoutId;
 use Ramsey\Uuid\Uuid;
 
@@ -17,6 +19,16 @@ class WorkoutRepository extends EntityRepository
 {
     public function nextId() : WorkoutId
     {
-        return new WorkoutId(Uuid::uuid4());
+        return new WorkoutId(Uuid::uuid4()->toString());
+    }
+
+    public function findByWorkoutId(WorkoutId $workoutId) : Workout
+    {
+        $query = $this->createQueryBuilder("w")
+            ->where("w.workoutId.workoutId = :id")
+            ->setParameter("id", $workoutId->__toString())
+            ->getQuery();
+
+        return $query->getSingleResult();
     }
 }

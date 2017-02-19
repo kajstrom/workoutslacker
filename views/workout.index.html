@@ -20,7 +20,7 @@
     <tbody>
     {% for workout in workouts %}
     <tr>
-        <td>{{workout.date}}</td>
+        <td><a href="/workouts/show/{{workout.id}}">{{workout.date}}</a></td>
         <td>{{workout.start}}</td>
         <td>{{workout.end}}</td>
     </tr>

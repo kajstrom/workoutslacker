@@ -22,4 +22,20 @@ class ExerciseType extends Entity
         $this->exerciseTypeId = $exerciseTypeId;
         $this->name = $name;
     }
+
+    /**
+     * @return ExerciseTypeId
+     */
+    public function getExerciseTypeId(): ExerciseTypeId
+    {
+        return $this->exerciseTypeId;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
 }

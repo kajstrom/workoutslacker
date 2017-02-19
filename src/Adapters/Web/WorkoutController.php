@@ -2,9 +2,12 @@
 
 namespace Adapters\Web;
 use Doctrine\ORM\EntityManager;
+use Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseTypeRepository;
 use Domain\Logging\Infrastructure\Persistence\Doctrine\WorkoutRepository;
+use Domain\Logging\Model\ExerciseType\ExerciseType;
 use Domain\Logging\Model\Workout\Time;
 use Domain\Logging\Model\Workout\Workout;
+use Domain\Logging\Model\Workout\WorkoutId;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,5 +86,33 @@ class WorkoutController
         }
 
         return new Response($this->twig->render("workout.add.html"));
+    }
+
+    public function showAction(ServerRequestInterface $request, $workoutId) : Response
+    {
+        $workoutId = new WorkoutId($workoutId);
+
+        /** @var WorkoutRepository $workoutRepository */
+        $workoutRepository = $this->entityManager->getRepository(Workout::class);
+        /** @var ExerciseTypeRepository $exerciseTypeRepository */
+        $exerciseTypeRepository = $this->entityManager->getRepository(ExerciseType::class);
+
+        $workout = $workoutRepository->findByWorkoutId($workoutId);
+        /** @var ExerciseType[] $exerciseTypes */
+        $exerciseTypes = $exerciseTypeRepository->findBy([], ["name" => "ASC"]);
+
+        $exerciseTypeArray = [];
+        foreach ($exerciseTypes as $exerciseType) {
+            $exerciseTypeArray[] = [
+                "name" => $exerciseType->getName(),
+                "exerciseTypeId" => $exerciseType->getExerciseTypeId()->getExerciseTypeId()
+            ];
+        }
+
+        return new Response($this->twig->render("workout.show.html", [
+            "date" => $workout->getTime()->getStart()->format("d.m.Y"),
+            "workoutId" => $workout->getId()->__toString(),
+            "exerciseTypes" => $exerciseTypeArray
+        ]));
     }
 }

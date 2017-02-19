@@ -14,9 +14,11 @@ $request = ServerRequestFactory::fromGlobals();
 
 $workoutsListRoute = new Route('/workouts', array('controller' => 'WorkoutController', 'action' => 'index'));
 $addWorkoutRoute = new Route("/workouts/add", ["controller" => "WorkoutController", "action" => "add"]);
+$showWorkoutRoute = new Route("/workouts/show/{workoutId}", ["controller" => "WorkoutController", "action" => "show"]);
 $routes = new RouteCollection();
 $routes->add('workout_index', $workoutsListRoute);
 $routes->add("workout_add", $addWorkoutRoute);
+$routes->add("workout_show", $showWorkoutRoute);
 
 $context = new RequestContext('/');
 
@@ -32,7 +34,13 @@ $twig = new Twig_Environment($loader, array(
 ));
 
 $controller = new $controllerName($twig, $entityManager);
+$action = $parameters["action"];
+
+unset($parameters["action"]);
+unset($parameters["controller"]);
+
+$params = array_merge([$request], array_values($parameters));
 /** @var Response $response */
-$response = call_user_func_array([$controller, $parameters["action"] . "Action"], [$request]);
+$response = call_user_func_array([$controller, $action . "Action"], $params);
 
 $response->send();

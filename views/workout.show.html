@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Show workout</title>
+</head>
+<body>
+<h1>{{date}}</h1>
+
+<form action="/workouts/{{workoutId}}/exercise/add" method="post">
+    <label for="exerciseTypeId">Exercise</label>
+    <select name="exerciseTypeId" id="exerciseTypeId">
+        {% for exerciseType in exerciseTypes %}
+        <option value="{{exerciseType.exerciseTypeId}}">{{exerciseType.name}}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Add exercise</button>
+</form>
+
+</body>
+</html>
