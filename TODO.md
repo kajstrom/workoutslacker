@@ -6,4 +6,6 @@ Index page
 
 Dependency injection
 
+Integration tests for Repository custom functionality.
+
 Figure out how to use DateTimeImmutable's with Doctrine.
