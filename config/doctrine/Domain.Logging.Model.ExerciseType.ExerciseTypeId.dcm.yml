@@ -1,0 +1,4 @@
+Domain\Logging\Model\ExerciseType\ExerciseTypeId:
+  type: embeddable
+  fields:
+    exerciseTypeId: {type: string}

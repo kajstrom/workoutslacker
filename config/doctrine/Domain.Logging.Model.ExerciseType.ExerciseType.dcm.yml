@@ -1,0 +1,15 @@
+Domain\Logging\Model\ExerciseType\ExerciseType:
+  type: entity
+  table: exercise_types
+  repositoryClass: Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseTypeRepository
+  embedded:
+    exerciseTypeId:
+      class: Domain\Logging\Model\ExerciseType\ExerciseTypeId
+  id:
+    id:
+      type: integer
+      column: exercise_type_id
+      generator:
+        strategy: AUTO
+  fields:
+    name: {type: string}
