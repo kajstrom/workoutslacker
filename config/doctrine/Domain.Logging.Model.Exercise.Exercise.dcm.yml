@@ -1,0 +1,19 @@
+Domain\Logging\Model\Exercise\Exercise:
+  type: entity
+  table: workout_exercises
+  repositoryClass: Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseRepository
+  embedded:
+    exerciseId:
+      class: Domain\Logging\Model\Exercise\ExerciseId
+    exerciseTypeId:
+      class: Domain\Logging\Model\ExerciseType\ExerciseTypeId
+    workoutId:
+      class: Domain\Logging\Model\Workout\WorkoutId
+  id:
+      id:
+        type: integer
+        column: exercise_id
+        generator:
+          strategy: AUTO
+  fields:
+      nthInWorkout: {type: integer}

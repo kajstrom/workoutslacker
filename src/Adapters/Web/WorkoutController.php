@@ -2,8 +2,10 @@
 
 namespace Adapters\Web;
 use Doctrine\ORM\EntityManager;
+use Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseRepository;
 use Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseTypeRepository;
 use Domain\Logging\Infrastructure\Persistence\Doctrine\WorkoutRepository;
+use Domain\Logging\Model\Exercise\Exercise;
 use Domain\Logging\Model\ExerciseType\ExerciseType;
 use Domain\Logging\Model\Workout\Time;
 use Domain\Logging\Model\Workout\Workout;
@@ -96,10 +98,14 @@ class WorkoutController
         $workoutRepository = $this->entityManager->getRepository(Workout::class);
         /** @var ExerciseTypeRepository $exerciseTypeRepository */
         $exerciseTypeRepository = $this->entityManager->getRepository(ExerciseType::class);
+        /** @var ExerciseRepository $exerciseRepository */
+        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
 
         $workout = $workoutRepository->findByWorkoutId($workoutId);
         /** @var ExerciseType[] $exerciseTypes */
         $exerciseTypes = $exerciseTypeRepository->findBy([], ["name" => "ASC"]);
+
+        $workoutExercises = $exerciseRepository->findWorkoutExercises($workoutId);
 
         $exerciseTypeArray = [];
         foreach ($exerciseTypes as $exerciseType) {
@@ -112,7 +118,8 @@ class WorkoutController
         return new Response($this->twig->render("workout.show.html", [
             "date" => $workout->getTime()->getStart()->format("d.m.Y"),
             "workoutId" => $workout->getId()->__toString(),
-            "exerciseTypes" => $exerciseTypeArray
+            "exerciseTypes" => $exerciseTypeArray,
+            "exercises" => $workoutExercises
         ]));
     }
 }

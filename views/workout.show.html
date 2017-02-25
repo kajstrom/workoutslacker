@@ -7,7 +7,7 @@
 <body>
 <h1>{{date}}</h1>
 
-<form action="/workouts/{{workoutId}}/exercise/add" method="post">
+<form action="/workouts/{{workoutId}}/exercises/add" method="post">
     <label for="exerciseTypeId">Exercise</label>
     <select name="exerciseTypeId" id="exerciseTypeId">
         {% for exerciseType in exerciseTypes %}
@@ -17,6 +17,11 @@
 
     <button type="submit">Add exercise</button>
 </form>
+
+{% for exercise in exercises %}
+<h3>{{exercise.e_nthInWorkout}}. {{exercise.et_name}}</h3>
+
+{% endfor %}
 
 </body>
 </html>

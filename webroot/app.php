@@ -15,10 +15,12 @@ $request = ServerRequestFactory::fromGlobals();
 $workoutsListRoute = new Route('/workouts', array('controller' => 'WorkoutController', 'action' => 'index'));
 $addWorkoutRoute = new Route("/workouts/add", ["controller" => "WorkoutController", "action" => "add"]);
 $showWorkoutRoute = new Route("/workouts/show/{workoutId}", ["controller" => "WorkoutController", "action" => "show"]);
+$addWorkoutExerciseRoute = new Route("/workouts/{workoutId}/exercises/add", ["controller" => "WorkoutExerciseController", "action" => "add"]);
 $routes = new RouteCollection();
 $routes->add('workout_index', $workoutsListRoute);
 $routes->add("workout_add", $addWorkoutRoute);
 $routes->add("workout_show", $showWorkoutRoute);
+$routes->add("workout_exercise_add", $addWorkoutExerciseRoute);
 
 $context = new RequestContext('/');
 
