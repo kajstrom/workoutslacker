@@ -1,7 +1,7 @@
 Domain\Logging\Model\ExerciseType\ExerciseType:
   type: entity
   table: exercise_types
-  repositoryClass: Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseTypeRepository
+  repositoryClass: Adapters\Persistence\Doctrine\Logging\ExerciseTypeRepository
   embedded:
     exerciseTypeId:
       class: Domain\Logging\Model\ExerciseType\ExerciseTypeId

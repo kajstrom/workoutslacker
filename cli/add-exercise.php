@@ -1,6 +1,6 @@
 <?php
 
-use Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseTypeRepository;
+use Adapters\Persistence\Doctrine\Logging\ExerciseTypeRepository;
 use Domain\Logging\Model\ExerciseType\ExerciseType;
 
 require_once dirname(__FILE__) . "/../bootstrap.php";

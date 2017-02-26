@@ -2,9 +2,9 @@
 
 namespace Adapters\Web;
 use Doctrine\ORM\EntityManager;
-use Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseRepository;
-use Domain\Logging\Infrastructure\Persistence\Doctrine\ExerciseTypeRepository;
-use Domain\Logging\Infrastructure\Persistence\Doctrine\WorkoutRepository;
+use Adapters\Persistence\Doctrine\Logging\ExerciseRepository;
+use Adapters\Persistence\Doctrine\Logging\ExerciseTypeRepository;
+use Adapters\Persistence\Doctrine\Logging\WorkoutRepository;
 use Domain\Logging\Model\Exercise\Exercise;
 use Domain\Logging\Model\ExerciseType\ExerciseType;
 use Domain\Logging\Model\Workout\Time;

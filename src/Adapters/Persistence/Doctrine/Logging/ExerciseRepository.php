@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace Domain\Logging\Infrastructure\Persistence\Doctrine;
+namespace Adapters\Persistence\Doctrine\Logging;
 
 
 use Doctrine\ORM\EntityRepository;

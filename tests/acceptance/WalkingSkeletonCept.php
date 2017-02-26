@@ -1,6 +1,6 @@
 <?php
 use Codeception\Util\Fixtures;
-use Domain\Logging\Infrastructure\Persistence\Doctrine\WorkoutRepository;
+use Adapters\Persistence\Doctrine\Logging\WorkoutRepository;
 use Domain\Logging\Model\Workout\Time;
 use Domain\Logging\Model\Workout\Workout;
 
