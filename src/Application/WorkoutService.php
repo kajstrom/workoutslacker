@@ -72,7 +72,7 @@ class WorkoutService
      * Gather information required for showing a workout.
      *
      * @param WorkoutId $workoutId
-     * @return array
+     * @return array Contains keys 'workout', 'exercises' and 'exerciseTypes'.
      */
     public function show(WorkoutId $workoutId) : array
     {
