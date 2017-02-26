@@ -24,9 +24,27 @@ class ExerciseRepository extends EntityRepository
             ->where("e.workoutId.workoutId = :id")
             ->setParameter("id", $workoutId->__toString())
             ->join(ExerciseType::class, 'et', \Doctrine\ORM\Query\Expr\Join::WITH, 'e.exerciseTypeId.exerciseTypeId = et.exerciseTypeId.exerciseTypeId')
-            ->orderBy("e.nthInWorkout", "DESC")
+            ->orderBy("e.nthInWorkout", "ASC")
             ->getQuery();
 
         return $query->getScalarResult();
+    }
+
+    /**
+     * Find out the current amount of exercises for the workout.
+     *
+     * @param WorkoutId $workoutId
+     * @return int
+     */
+    public function exerciseCountForWorkout(WorkoutId $workoutId) : int
+    {
+        $qb = $this->createQueryBuilder("e");
+
+        $query = $qb->select($qb->expr()->count("e"))
+            ->where("e.workoutId.workoutId = :id")
+            ->setParameter("id", $workoutId->__toString())
+            ->getQuery();
+
+        return (int)$query->getSingleResult()[1];
     }
 }

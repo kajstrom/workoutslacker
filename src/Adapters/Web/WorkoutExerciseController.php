@@ -46,8 +46,9 @@ class WorkoutExerciseController
 
         $exerciseTypeId = new ExerciseTypeId($post["exerciseTypeId"]);
         $exerciseId = $exerciseRepository->nextId();
+        $nthExerciseInWorkout = $exerciseRepository->exerciseCountForWorkout($workoutId) + 1;
 
-        $exercise = new Exercise($exerciseId, $workoutId, $exerciseTypeId, 1);
+        $exercise = new Exercise($exerciseId, $workoutId, $exerciseTypeId, $nthExerciseInWorkout);
 
         $this->entityManager->persist($exercise);
         $this->entityManager->flush();
