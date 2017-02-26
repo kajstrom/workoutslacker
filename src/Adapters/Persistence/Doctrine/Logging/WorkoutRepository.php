@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Adapters\Persistence\Doctrine\Logging;
 
 
+use Adapters\Persistence\Doctrine\SaveEnabledRepository;
 use Doctrine\ORM\EntityRepository;
 use Domain\Logging\Model\Workout\Workout;
 use Domain\Logging\Model\Workout\WorkoutId;
@@ -17,6 +18,8 @@ use Ramsey\Uuid\Uuid;
 
 class WorkoutRepository extends EntityRepository
 {
+    use SaveEnabledRepository;
+
     public function nextId() : WorkoutId
     {
         return new WorkoutId(Uuid::uuid4()->toString());

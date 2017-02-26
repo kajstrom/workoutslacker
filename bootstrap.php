@@ -17,3 +17,8 @@ $dbParams = array(
     'password' => DB_PASSWD,
     'dbname'   => DB_NAME,
 );
+
+/**
+ * @var \Symfony\Component\DependencyInjection\ContainerBuilder $container
+ */
+$container = require_once "config/container.php";

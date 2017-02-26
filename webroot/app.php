@@ -7,10 +7,6 @@ use Symfony\Component\Routing\RouteCollection;
 use Zend\Diactoros\ServerRequestFactory;
 
 require "../bootstrap.php";
-/**
- * @var \Symfony\Component\DependencyInjection\ContainerBuilder $container
- */
-$container = require_once "../config/container.php";
 
 ini_set("display_errors", "on");
 error_reporting(E_ALL);

@@ -1,49 +1,33 @@
 <?php
 
 namespace Adapters\Web;
-use Doctrine\ORM\EntityManager;
-use Adapters\Persistence\Doctrine\Logging\ExerciseRepository;
-use Adapters\Persistence\Doctrine\Logging\ExerciseTypeRepository;
-use Adapters\Persistence\Doctrine\Logging\WorkoutRepository;
-use Domain\Logging\Model\Exercise\Exercise;
-use Domain\Logging\Model\ExerciseType\ExerciseType;
-use Domain\Logging\Model\Workout\Time;
+use Application\WorkoutService;
 use Domain\Logging\Model\Workout\Workout;
 use Domain\Logging\Model\Workout\WorkoutId;
 use Psr\Http\Message\ServerRequestInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Created by PhpStorm.
- * User: Kaitsu
- * Date: 28.3.2016
- * Time: 22:45
- */
 class WorkoutController
 {
-    /**
-     * @var EntityManager
-     */
-    protected $entityManager;
     /**
      * @var \Twig_Environment
      */
     private $twig;
+    /**
+     * @var WorkoutService
+     */
+    private $workoutService;
 
-    public function __construct(\Twig_Environment $twig, EntityManager $entityManager)
+    public function __construct(\Twig_Environment $twig, WorkoutService $workoutService)
     {
-        $this->entityManager = $entityManager;
         $this->twig = $twig;
+        $this->workoutService = $workoutService;
     }
     
     public function indexAction(ServerRequestInterface $serverRequestInterface) : Response
     {
-        /** @var WorkoutRepository $workoutRepository */
-        $workoutRepository = $this->entityManager->getRepository(Workout::class);
-
-        /** @var Workout[] $workouts */
-        $workouts = $workoutRepository->findAll();
+        $workouts = $this->workoutService->all();
 
         $templateWorkouts = [];
         foreach ($workouts as $workout) {
@@ -68,21 +52,7 @@ class WorkoutController
             $start = \DateTime::createFromFormat("d.m.Y H:i", $post["date"]. " " . $post["start"]);
             $end = \DateTime::createFromFormat("d.m.Y H:i", $post["date"]. " " . $post["end"]);
 
-            if ($end < $start) {
-                $end->add(new \DateInterval("P1D"));
-            }
-
-            $time = new Time($start, $end);
-
-            /** @var WorkoutRepository $workoutRepository */
-            $workoutRepository = $this->entityManager->getRepository(Workout::class);
-
-            $workoutId = $workoutRepository->nextId();
-
-            $workout = new Workout($workoutId, $time);
-
-            $this->entityManager->persist($workout);
-            $this->entityManager->flush();
+            $this->workoutService->add($start, $end);
 
             return new RedirectResponse("/workouts");
         }
@@ -94,32 +64,18 @@ class WorkoutController
     {
         $workoutId = new WorkoutId($workoutId);
 
-        /** @var WorkoutRepository $workoutRepository */
-        $workoutRepository = $this->entityManager->getRepository(Workout::class);
-        /** @var ExerciseTypeRepository $exerciseTypeRepository */
-        $exerciseTypeRepository = $this->entityManager->getRepository(ExerciseType::class);
-        /** @var ExerciseRepository $exerciseRepository */
-        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
+        $workoutInformation = $this->workoutService->show($workoutId);
 
-        $workout = $workoutRepository->findByWorkoutId($workoutId);
-        /** @var ExerciseType[] $exerciseTypes */
-        $exerciseTypes = $exerciseTypeRepository->findBy([], ["name" => "ASC"]);
-
-        $workoutExercises = $exerciseRepository->findWorkoutExercises($workoutId);
-
-        $exerciseTypeArray = [];
-        foreach ($exerciseTypes as $exerciseType) {
-            $exerciseTypeArray[] = [
-                "name" => $exerciseType->getName(),
-                "exerciseTypeId" => $exerciseType->getExerciseTypeId()->getExerciseTypeId()
-            ];
-        }
+        /** @var Workout $workout */
+        $workout = $workoutInformation["workout"];
+        $exercises = $workoutInformation["exercises"];
+        $exerciseTypes = $workoutInformation["exerciseTypes"];
 
         return new Response($this->twig->render("workout.show.html", [
             "date" => $workout->getTime()->getStart()->format("d.m.Y"),
             "workoutId" => $workout->getId()->__toString(),
-            "exerciseTypes" => $exerciseTypeArray,
-            "exercises" => $workoutExercises
+            "exerciseTypes" => $exerciseTypes,
+            "exercises" => $exercises
         ]));
     }
 }
