@@ -7,6 +7,11 @@ use Symfony\Component\Routing\RouteCollection;
 use Zend\Diactoros\ServerRequestFactory;
 
 require "../bootstrap.php";
+/**
+ * @var \Symfony\Component\DependencyInjection\ContainerBuilder $container
+ */
+$container = require_once "../config/container.php";
+
 ini_set("display_errors", "on");
 error_reporting(E_ALL);
 
@@ -28,14 +33,9 @@ $matcher = new UrlMatcher($routes, $context);
 
 $parameters = $matcher->match($request->getRequestTarget());
 
-$controllerName = '\Adapters\Web\\' . $parameters["controller"];
+$controllerName = 'Adapters\Web\\' . $parameters["controller"];
 
-$loader = new Twig_Loader_Filesystem(dirname(__DIR__) . '/views');
-$twig = new Twig_Environment($loader, array(
-    'cache' => dirname(__DIR__) . '/cache/twig',
-));
-
-$controller = new $controllerName($twig, $entityManager);
+$controller = $container->get($controllerName);
 $action = $parameters["action"];
 
 unset($parameters["action"]);

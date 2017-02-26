@@ -1,7 +1,7 @@
 <?php
-require "vendor/autoload.php";
-
 require_once "vendor/autoload.php";
+
+define("APP_PATH", __DIR__);
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
@@ -17,7 +17,3 @@ $dbParams = array(
     'password' => DB_PASSWD,
     'dbname'   => DB_NAME,
 );
-
-$paths = array(__DIR__ . "/config/doctrine");
-$config = Setup::createYAMLMetadataConfiguration($paths, $isDevMode);
-$entityManager = EntityManager::create($dbParams, $config);
