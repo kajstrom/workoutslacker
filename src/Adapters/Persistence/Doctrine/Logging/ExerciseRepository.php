@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace Adapters\Persistence\Doctrine\Logging;
 
 
+use Adapters\Persistence\Doctrine\SaveEnabledRepository;
 use Doctrine\ORM\EntityRepository;
 use Domain\Logging\Model\Exercise\ExerciseId;
 use Domain\Logging\Model\ExerciseType\ExerciseType;
@@ -12,11 +13,24 @@ use Ramsey\Uuid\Uuid;
 
 class ExerciseRepository extends EntityRepository
 {
+    use SaveEnabledRepository;
+
+    /**
+     * Generate id.
+     *
+     * @return ExerciseId
+     */
     public function nextId() : ExerciseId
     {
         return new ExerciseId(Uuid::uuid4()->toString());
     }
 
+    /**
+     * Find out exercises of a workout.
+     *
+     * @param WorkoutId $workoutId
+     * @return array
+     */
     public function findWorkoutExercises(WorkoutId $workoutId) : array
     {
         $query = $this->createQueryBuilder("e")

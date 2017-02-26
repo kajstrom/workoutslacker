@@ -9,6 +9,7 @@
 namespace Adapters\Web;
 
 
+use Application\WorkoutExerciseService;
 use Doctrine\ORM\EntityManager;
 use Adapters\Persistence\Doctrine\Logging\ExerciseRepository;
 use Domain\Logging\Model\Exercise\Exercise;
@@ -21,37 +22,29 @@ use Symfony\Component\HttpFoundation\Response;
 class WorkoutExerciseController
 {
     /**
-     * @var EntityManager
-     */
-    protected $entityManager;
-    /**
      * @var \Twig_Environment
      */
     private $twig;
+    /**
+     * @var WorkoutExerciseService
+     */
+    private $workoutExerciseService;
 
-    public function __construct(\Twig_Environment $twig, EntityManager $entityManager)
+    public function __construct(\Twig_Environment $twig, WorkoutExerciseService $workoutExerciseService)
     {
-        $this->entityManager = $entityManager;
         $this->twig = $twig;
+        $this->workoutExerciseService = $workoutExerciseService;
     }
 
     public function addAction(ServerRequestInterface $request, string $workoutId) : Response
     {
-        /** @var ExerciseRepository $exerciseRepository */
-        $exerciseRepository = $this->entityManager->getRepository(Exercise::class);
-
         $workoutId = new WorkoutId($workoutId);
 
         $post = $request->getParsedBody();
 
         $exerciseTypeId = new ExerciseTypeId($post["exerciseTypeId"]);
-        $exerciseId = $exerciseRepository->nextId();
-        $nthExerciseInWorkout = $exerciseRepository->exerciseCountForWorkout($workoutId) + 1;
 
-        $exercise = new Exercise($exerciseId, $workoutId, $exerciseTypeId, $nthExerciseInWorkout);
-
-        $this->entityManager->persist($exercise);
-        $this->entityManager->flush();
+        $this->workoutExerciseService->add($workoutId, $exerciseTypeId);
 
         return new RedirectResponse("/workouts/show/$workoutId");
     }

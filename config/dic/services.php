@@ -4,6 +4,7 @@ use Adapters\Persistence\Doctrine\Logging\ExerciseTypeRepository;
 use Adapters\Persistence\Doctrine\Logging\WorkoutRepository;
 use Adapters\Web\WorkoutController;
 use Adapters\Web\WorkoutExerciseController;
+use Application\WorkoutExerciseService;
 use Application\WorkoutService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Tools\Setup;
@@ -34,7 +35,7 @@ $container->register(WorkoutController::class, WorkoutController::class)
 
 $container->register(WorkoutExerciseController::class, WorkoutExerciseController::class)
     ->addArgument(new Reference(Twig_Environment::class))
-    ->addArgument(new Reference(EntityManager::class));
+    ->addArgument(new Reference(WorkoutExerciseService::class));
 
 //Repositories
 $workoutRepositoryDefinition = new Definition(WorkoutRepository::class, [Workout::class]);
@@ -53,4 +54,7 @@ $container->setDefinition(ExerciseTypeRepository::class, $exerciseTypeRepository
 $container->register(WorkoutService::class, WorkoutService::class)
     ->addArgument(new Reference(WorkoutRepository::class))
     ->addArgument(new Reference(ExerciseTypeRepository::class))
+    ->addArgument(new Reference(ExerciseRepository::class));
+
+$container->register(WorkoutExerciseService::class, WorkoutExerciseService::class)
     ->addArgument(new Reference(ExerciseRepository::class));
